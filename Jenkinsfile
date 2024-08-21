@@ -6,14 +6,52 @@ pipeline {
         }
     }
     stages {
-        stage('Install Dependencies') {
+        stage('Check Node.js and npm Versions') {
             steps {
-                sh 'npm install'
+                sh 'node -v'
+                sh 'npm -v'
             }
         }
-        stage('Build') {
+        stage('Install Dependencies - Admin') {
             steps {
-                sh 'npm run build'
+                dir('admin') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Build - Admin') {
+            steps {
+                dir('admin') {
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Install Dependencies - Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Build - Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build'
+                }
+            }
+        }
+        stage('Install Dependencies - Backend') {
+            steps {
+                dir('backend') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Build - Backend') {
+            steps {
+                dir('backend') {
+                    sh 'npm run build'
+                }
             }
         }
         // Add more stages as needed
